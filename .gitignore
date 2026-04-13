@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+
+# env files
+.env
+backend/.env
+frontend/.env
+
+# uploads
+backend/uploads/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
