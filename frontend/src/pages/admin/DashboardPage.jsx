@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { apiFetch, buildAssetUrl } from '../../services/api';
+import { getCategoryConfig } from '../../data/categoryConfig';
 
 export default function DashboardPage() {
   const { authHeaders } = useAuth();
@@ -38,10 +39,10 @@ export default function DashboardPage() {
     <div>
       <div className="admin-heading-row">
         <div>
-          <h1>Vehículos</h1>
-          <p>Gestiona el catálogo desde aquí.</p>
+          <h1>Anuncios</h1>
+          <p>Gestiona el catálogo y decide en qué página se publica cada anuncio.</p>
         </div>
-        <Link to="/admin/vehiculos/nuevo" className="btn btn-primary">Añadir vehículo</Link>
+        <Link to="/admin/vehiculos/nuevo" className="btn btn-primary">Añadir anuncio</Link>
       </div>
 
       {error && <p className="status-message">{error}</p>}
@@ -52,6 +53,7 @@ export default function DashboardPage() {
             <tr>
               <th>Imagen</th>
               <th>Título</th>
+              <th>Sección</th>
               <th>Precio</th>
               <th>Marca</th>
               <th>Estado</th>
@@ -63,6 +65,7 @@ export default function DashboardPage() {
               <tr key={vehicle.id}>
                 <td><img className="admin-thumb" src={buildAssetUrl(vehicle.images?.[0]) || 'https://placehold.co/100x70'} alt={vehicle.title} /></td>
                 <td>{vehicle.title}</td>
+                <td>{getCategoryConfig(vehicle.category).label}</td>
                 <td>{Number(vehicle.price || 0).toLocaleString('es-ES')} €</td>
                 <td>{vehicle.brand}</td>
                 <td>{vehicle.status || 'Disponible'}</td>

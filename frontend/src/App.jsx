@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import AdminLayout from './components/AdminLayout';
 import HomePage from './pages/HomePage';
 import VehiclesPage from './pages/VehiclesPage';
+import CategoryPage from './pages/CategoryPage';
 import VehicleDetailPage from './pages/VehicleDetailPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -22,6 +23,9 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/motos-nuevas" element={<CategoryPage categorySlug="motos-nuevas" />} />
+        <Route path="/coches-ocasion" element={<CategoryPage categorySlug="coches-ocasion" />} />
+        <Route path="/cuadriciclos-aixam" element={<CategoryPage categorySlug="aixam" />} />
         <Route path="/vehiculos" element={<VehiclesPage />} />
         <Route path="/vehiculos/:id" element={<VehicleDetailPage />} />
         <Route path="/nosotros" element={<AboutPage />} />

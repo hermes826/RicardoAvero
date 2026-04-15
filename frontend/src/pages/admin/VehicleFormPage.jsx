@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { apiFetch, buildAssetUrl } from '../../services/api';
+import { CATEGORY_OPTIONS } from '../../data/categoryConfig';
 
 const initialForm = {
+  category: 'coches-ocasion',
   title: '',
   description: '',
   price: '',
@@ -32,6 +34,7 @@ export default function VehicleFormPage() {
     try {
       const data = await apiFetch(`/api/bikes/${id}`, { headers: authHeaders });
       setForm({
+        category: data.category || 'coches-ocasion',
         title: data.title || '',
         description: data.description || '',
         price: data.price || '',
@@ -113,9 +116,17 @@ export default function VehicleFormPage() {
 
   return (
     <div>
-      <h1>{isEdit ? 'Editar vehículo' : 'Nuevo vehículo'}</h1>
+      <h1>{isEdit ? 'Editar anuncio' : 'Nuevo anuncio'}</h1>
       <form className="admin-form-card" onSubmit={handleSubmit}>
         <div className="admin-form-grid">
+          <label className="admin-field-block">
+            <span>Página donde publicar</span>
+            <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
+              {CATEGORY_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </label>
           <input placeholder="Título" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
           <input placeholder="Marca" value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} required />
           <input placeholder="Modelo" value={form.model} onChange={(e) => setForm({ ...form, model: e.target.value })} required />
@@ -130,7 +141,9 @@ export default function VehicleFormPage() {
           <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
             <option value="disponible">Disponible</option>
             <option value="reservado">Reservado</option>
+            <option value="reservada">Reservada</option>
             <option value="vendido">Vendido</option>
+            <option value="vendida">Vendida</option>
           </select>
         </div>
 
@@ -138,7 +151,7 @@ export default function VehicleFormPage() {
 
         <label className="check-row">
           <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
-          Destacar en portada
+          Destacar dentro de la sección
         </label>
 
         <label className="file-box">
@@ -161,7 +174,7 @@ export default function VehicleFormPage() {
           </div>
         )}
 
-        <button className="btn btn-primary" disabled={saving} type="submit">{saving ? 'Guardando...' : 'Guardar vehículo'}</button>
+        <button className="btn btn-primary" disabled={saving} type="submit">{saving ? 'Guardando...' : 'Guardar anuncio'}</button>
         {error && <p className="status-message">{error}</p>}
       </form>
     </div>
